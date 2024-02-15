@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bè Thông Minh</title>
+  <meta name="description" content="For monitoring the quality of water in HCM city">
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+  <style>
+    body {
+      background: linear-gradient(to right, #84fab0, #8fd3f4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container px-4">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom bcc-purle rounded">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32">
+          <use xlink:href="#bootstrap"></use>
+        </svg>
+        <span class="fs-4 bcc-purle fw-bolder fs-2">Bè Thông Minh</span>
+      </a>
+    </header>
+
+    <div class="row g-5">
+      <div class="col">
+        <div class="p-3 bcc-purle rounded">
+          <div class="p-2 bcc-purle2 fw-bold fs-3">Nhiệt độ nước </div>
+          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div id="temp" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger text-light">
+            23 độ C
+          </div>
+          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <canvas class="bg-light my-3" id="tempChart"> </canvas>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-3 bcc-darkYellow rounded">
+          <div class="p-2 bcc-darkYellow2 fw-bold fs-3">pH nước</div>
+          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div id="ph" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger ">
+            7
+          </div>
+          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <canvas class="bg-light my-3" id="phChart"> </canvas>
+        </div>
+      </div>
+      <div class="col">
+        <div class="p-3 bcc-blue rounded">
+          <div class="p-2 bcc-blue2 fw-bold fs-3">TDS</div>
+          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div id="tds" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger ">
+            900 ppm
+          </div>
+          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <canvas class="bg-light my-3" id="tdsChart"> </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="h2">Cài đặt</div>
+    <div class="d-flex  my-3 align-items-end">
+      <!-- 4 button for up down left right -->
+      <div class="d-grid col-3  gap-2 d-md-flex justify-content-md-end" style="flex-direction: column;">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary " type="button" id="up_btn">Lên</button>
+        </div>
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-primary " type="button" id="left_btn">Trái</button>
+          <button class="btn btn-primary " type="button" id="down_btn">Xuống</button>
+          <button class="btn btn-primary" type="button" id="right_btn">Phải</button>
+        </div>
+        <button class="btn btn-danger" type="button" id="stop_btn">Dừng lại</button>
+        <div class="text-center">Di chuyển</div>
+      </div>
+      <!-- two button for on and off pump -->
+      <div class="d-grid col-3  gap-2 d-md-flex justify-content-md-end" style="flex-direction: column;">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary " type="button" id="pump_on_btn">Bật</button>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary " type="button" id="pump_off_btn">Tắt</button>
+        </div>
+        <div class="text-center">Bật/Tắt bơm</div>
+      </div>
+      <!-- two button for on and off feeding -->
+      <div class="d-grid col-3  gap-2 d-md-flex justify-content-md-end" style="flex-direction: column;">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary " type="button" id="feed_on_btn">Bật</button>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary " type="button" id="feed_off_btn">Tắt</button>
+        </div>
+        <div class="text-center">Bật/Tắt cho ăn</div>
+      </div>
+      <!-- input for changing time -->
+      <div class="d-grid col-3 justify-content-center">
+        <input id="time_input" class="form-control" type="time" placeholder="Nhập thời gian"
+          aria-label="default input example">
+        <input id="weight_input" class="form-control" type="number" placeholder="Nhập khối lượng (kg)"
+          aria-label="default input example">
+        <button class="btn btn-primary mt-2" type="button" id="time_set">Cài đặt</button>
+        <div class="text-center">Cài đặt thời gian/lượng thức ăn</div>
+      </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"></script>
+
+    <!-- socket -->
+    <script src="../socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      const temp = document.getElementById("temp");
+      const ph = document.getElementById("ph");
+      const tds = document.getElementById("tds");
+      const update = document.getElementById("update");
+      const up_btn = document.getElementById("up_btn");
+      const down_btn = document.getElementById("down_btn");
+      const left_btn = document.getElementById("left_btn");
+      const right_btn = document.getElementById("right_btn");
+      const stop_btn = document.getElementById("stop_btn");
+      const pump_on_btn = document.getElementById("pump_on_btn");
+      const pump_off_btn = document.getElementById("pump_off_btn");
+      const feed_on_btn = document.getElementById("feed_on_btn");
+      const feed_off_btn = document.getElementById("feed_off_btn");
+      const time_set = document.getElementById("time_set");
+
+      const btns = [[up_btn, down_btn, left_btn, right_btn], [pump_on_btn, pump_off_btn], [feed_on_btn, feed_off_btn]]
+
+      function activeBtn(x, y) {
+        for (let j = 0; j < btns[x].length; j++) {
+          if (j == y) continue;
+          btns[x][j].classList.remove("btn-success");
+          btns[x][j].classList.add("btn-primary");
+        }
+        if (y == 4) return;
+        btns[x][y].classList.add("btn-success");
+        btns[x][y].classList.remove("btn-primary");
+      }
+
+      const control = {
+        direction: 0,
+        pump: 0,
+        isFeeding: 0,
+        weight: 0,
+        hour: 0,
+        minute: 0,
+      }
+
+      stop_btn.addEventListener("click", () => {
+        control.direction = 0;
+        activeBtn(0, 4);
+        socket.emit("/web/control", control);
+        console.log("stop");
+      });
+
+      up_btn.addEventListener("click", () => {
+        control.direction = 1;
+        activeBtn(0, 0);
+        socket.emit("/web/control", control);
+        console.log("up")
+      });
+
+      down_btn.addEventListener("click", () => {
+        control.direction = 2;
+        activeBtn(0, 1);
+        socket.emit("/web/control", control);
+        console.log("down")
+      });
+
+      left_btn.addEventListener("click", () => {
+        control.direction = 3;
+        activeBtn(0, 2);
+        socket.emit("/web/control", control);
+        console.log("left");
+      });
+
+      right_btn.addEventListener("click", () => {
+        control.direction = 4;
+        activeBtn(0, 3);
+        socket.emit("/web/control", control);
+        console.log("right");
+      });
+
+      pump_on_btn.addEventListener("click", () => {
+        control.pump = 1;
+        activeBtn(1, 0);
+        socket.emit("/web/control", control);
+        console.log("pump on");
+      });
+
+      pump_off_btn.addEventListener("click", () => {
+        control.pump = 0;
+        activeBtn(1, 1);
+        socket.emit("/web/control", control);
+        console.log("pump off");
+      });
+
+      feed_on_btn.addEventListener("click", () => {
+        control.isFeeding = 1;
+        activeBtn(2, 0);
+        socket.emit("/web/control", control);
+        console.log("feed on");
+      });
+
+      feed_off_btn.addEventListener("click", () => {
+        control.isFeeding = 0;
+        activeBtn(2, 1);
+        socket.emit("/web/control", control);
+        console.log("feed off");
+      });
+
+      time_set.addEventListener("click", () => {
+        const time = document.querySelector("#time_input").value;
+        const weight = document.querySelector("#weight_input").value;
+        if (!weight || weight < 0 || time == "") {
+          alert("Nhập lại thời gian và khối lượng thức ăn");
+          return;
+        }
+        console.log(time, weight);
+        control.weight = weight;
+        control.hour = time.split(":")[0];
+        control.minute = time.split(":")[1];
+        socket.emit("/web/control", control);
+      });
+
+      socket.on('connect', function () {
+        console.log('Connected!');
+      });
+
+      // update.addEventListener("click", () => {
+      //   socket.emit("UPDATE", "update");
+      // });
+
+      socket.on("message", (data) => {
+        console.log(data);
+        temp.innerText = `${data.TEMP} độ C`;
+        ph.innerText = `${data.PH} `;
+        tds.innerText = `${data.TDS} mg/l`;
+
+        addData(tempChart, data.TEMP);
+        addData(phChart, data.PH);
+        addData(tdsChart, data.TDS);
+        if (tempChart.data.datasets[0].data.length > 30) removeData(tempChart);
+        if (phChart.data.datasets[0].data.length > 30)
+          removeData(phChart);
+        if (tdsChart.data.datasets[0].data.length > 30) removeData(tdsChart);
+      });
+
+      socket.on("/web/measure", (data) => {
+        console.log(data);
+        temp.innerText = `${data.waterTemp} độ C`;
+        ph.innerText = `${data.ph} `;
+        tds.innerText = `${data.tds} ppm`;
+        const time = document.querySelector("input[type='time']")
+        time.value = `${data.time}`;
+        addData(tempChart, data.waterTemp);
+        addData(phChart, data.ph);
+        addData(tdsChart, data.tds);
+        if (tempChart.data.datasets[0].data.length > 30) removeData(tempChart);
+        if (phChart.data.datasets[0].data.length > 30)
+          removeData(phChart);
+        if (tdsChart.data.datasets[0].data.length > 30) removeData(tdsChart);
+      });
+    </script>
+
+    <!-- chart -->
+    <script>
+      const configTempCharts = {
+        type: "line",
+        data: {
+          labels: [
+            60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28,
+            26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0,
+          ],
+          datasets: [
+            {
+              label: "Temperature (Celsius)",
+              data: [],
+              borderColor: ["rgba(255, 100, 100, 1)"],
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+        },
+      };
+      const configphChart = {
+        type: "line",
+        data: {
+          labels: [
+            60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28,
+            26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0,
+          ],
+          datasets: [
+            {
+              label: "pH ",
+              data: [],
+              borderColor: ["rgba(255, 100, 100, 1)"],
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+        },
+      };
+      const configTdsChart = {
+        type: "line",
+        data: {
+          labels: [
+            60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28,
+            26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0,
+          ],
+          datasets: [
+            {
+              label: "Thể tích (lít) ",
+              data: [],
+              borderColor: ["rgba(255, 100, 100, 1)"],
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+        },
+      };
+
+      const tempChart = new Chart(
+        document.getElementById("tempChart").getContext("2d"),
+        configTempCharts
+      );
+      const phChart = new Chart(
+        document.getElementById("phChart").getContext("2d"),
+        configphChart
+      );
+      const tdsChart = new Chart(
+        document.getElementById("tdsChart").getContext("2d"),
+        configTdsChart
+      );
+
+    </script>
+    <!-- update chart -->
+    <script>
+      function addData(chart, data) {
+        chart.data.datasets.forEach((dataset) => {
+          dataset.data.push(data);
+        });
+        chart.update();
+      }
+
+      function removeData(chart) {
+        chart.data.datasets.forEach((dataset) => {
+          dataset.data.shift();
+        });
+        chart.update();
+      }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+
+body {
+  background-image: url('https://c.pxhere.com/photos/2c/97/bubble_water_underwater_blue_aqua-1392211.jpg!d');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header {
+  height: 120px;
+}
+
+.bcc-purle {
+  background: #2c045e;
+  color: #fff !important;
+}
+
+.bcc-purle2 {
+  background: #d84efb;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.bcc-darkYellow {
+  background: #ebc91e;
+  color: #000;
+}
+
+.bcc-darkYellow2 {
+  background: #F2E707;
+  border-radius: 6px;
+  color: #000;
+}
+
+.bcc-blue2 {
+  background: #21e6ed;
+  color: #000;
+  border-radius: 6px;
+}
+
+.bcc-blue {
+  background: #4788ef;
+  color: #000;
+}
