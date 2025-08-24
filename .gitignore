@@ -1,0 +1,17 @@
+﻿# Root
+.DS_Store
+.vscode/
+
+# Node server
+/server/node_modules/
+/server/.env
+/server/npm-debug.log*
+
+# PlatformIO
+/hardware/.pio/
+/hardware/.cache/
+/hardware/.env
+
+# Logs
+**/*.log
+logs/
