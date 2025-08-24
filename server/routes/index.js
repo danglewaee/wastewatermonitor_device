@@ -1,11 +1,14 @@
-var express = require('express');
-var router = express.Router();
+// server/routes/index.js
+const path = require('path');
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// Serve the static HTML as the homepage
+router.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-router.get('/version', (req, res) => res.send('0.0.0'))
+router.get('/version', (req, res) => res.send('0.0.0'));
 
 module.exports = router;
