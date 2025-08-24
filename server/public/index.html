@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bè Thông Minh</title>
+  <title>Waste Water Monitoring System</title>
   <meta name="description" content="For monitoring the quality of water in HCM city">
   <link rel="stylesheet" href="stylesheets/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
@@ -33,39 +33,39 @@
     <div class="row g-5">
       <div class="col">
         <div class="p-3 bcc-purle rounded">
-          <div class="p-2 bcc-purle2 fw-bold fs-3">Nhiệt độ nước </div>
-          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div class="p-2 bcc-purle2 fw-bold fs-3">Water Temperature </div>
+          <div class="fw-bold mt-5">Current :</div>
           <div id="temp" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger text-light">
-            23 độ C
+            23 degree C
           </div>
-          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <div class="fw-bold mb-4">Graph: </div>
           <canvas class="bg-light my-3" id="tempChart"> </canvas>
         </div>
       </div>
       <div class="col">
         <div class="p-3 bcc-darkYellow rounded">
-          <div class="p-2 bcc-darkYellow2 fw-bold fs-3">pH nước</div>
-          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div class="p-2 bcc-darkYellow2 fw-bold fs-3">Water pH</div>
+          <div class="fw-bold mt-5">Current :</div>
           <div id="ph" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger ">
             7
           </div>
-          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <div class="fw-bold mb-4">Graph: </div>
           <canvas class="bg-light my-3" id="phChart"> </canvas>
         </div>
       </div>
       <div class="col">
         <div class="p-3 bcc-blue rounded">
           <div class="p-2 bcc-blue2 fw-bold fs-3">TDS</div>
-          <div class="fw-bold mt-5">Hiện tại :</div>
+          <div class="fw-bold mt-5">Current :</div>
           <div id="tds" class="p-5 mb-5 fw-semibold fs-1 text-center border-bottom border-danger ">
             900 ppm
           </div>
-          <div class="fw-bold mb-4">Biểu đồ: </div>
+          <div class="fw-bold mb-4">Graph: </div>
           <canvas class="bg-light my-3" id="tdsChart"> </canvas>
         </div>
       </div>
     </div>
-    <div class="h2">Cài đặt</div>
+    <div class="h2">Setting</div>
     <div class="d-flex  my-3 align-items-end">
       <!-- 4 button for up down left right -->
       <div class="d-grid col-3  gap-2 d-md-flex justify-content-md-end" style="flex-direction: column;">
